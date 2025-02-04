@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import team.jokimyoon.techmoa.domain.repository.User;
+import team.jokimyoon.techmoa.domain.user.repository.User;
 import team.jokimyoon.techmoa.global.exception.BusinessException;
 import team.jokimyoon.techmoa.global.security.oauth.Oauth2CustomUser;
 import team.jokimyoon.techmoa.global.security.oauth.Oauth2Provider;

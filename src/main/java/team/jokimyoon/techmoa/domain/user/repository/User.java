@@ -1,4 +1,4 @@
-package team.jokimyoon.techmoa.domain.repository;
+package team.jokimyoon.techmoa.domain.user.repository;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

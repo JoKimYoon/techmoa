@@ -1,4 +1,4 @@
-package team.jokimyoon.techmoa.domain.user;
+package team.jokimyoon.techmoa.domain.user.repository;
 
 import java.util.UUID;
 

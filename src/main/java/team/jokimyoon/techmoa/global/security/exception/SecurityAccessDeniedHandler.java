@@ -10,7 +10,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SecurityAccessDeniedHandler implements AccessDeniedHandler {
@@ -18,5 +20,6 @@ public class SecurityAccessDeniedHandler implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 		AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
+		//Todo LOGGING 및 동일한 스펙의 response data 출력
 	}
 }

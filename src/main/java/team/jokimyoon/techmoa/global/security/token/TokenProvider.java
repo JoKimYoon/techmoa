@@ -31,7 +31,7 @@ public class TokenProvider {
 	private static final long DEFAULT_ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7L;
 	private static final String TOKEN_TYPE = "Bearer";
 
-	@Value("${security.jwt.secret}")
+	@Value("${spring.security.jwt.secret}")
 	public void setSecret(String secret) {
 		key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 	}

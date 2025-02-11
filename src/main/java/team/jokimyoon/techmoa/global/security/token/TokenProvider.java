@@ -20,6 +20,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.global.exception.BusinessException;
 
@@ -86,6 +87,16 @@ public class TokenProvider {
 		} catch (Exception e) {
 			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR, e);
 		}
+	}
+
+	public static String extractAccessTokenHeader(HttpServletRequest request) {
+
+		String bearerToken = request.getHeader("Authorization");
+
+		if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
+			throw new BusinessException(HttpStatus.UNAUTHORIZED);
+		}
+		return bearerToken.replaceAll("Bearer", "").replaceAll("", "");
 	}
 
 }

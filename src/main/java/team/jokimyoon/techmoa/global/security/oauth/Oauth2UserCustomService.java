@@ -1,25 +1,35 @@
-package team.jokimyoon.techmoa.global.security.oauth.service;
+package team.jokimyoon.techmoa.global.security.oauth;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.jokimyoon.techmoa.domain.user.model.UserMapper;
 import team.jokimyoon.techmoa.domain.user.repository.User;
 import team.jokimyoon.techmoa.domain.user.repository.UserRepository;
 import team.jokimyoon.techmoa.global.exception.BusinessException;
-import team.jokimyoon.techmoa.global.security.oauth.Oauth2CustomUser;
-import team.jokimyoon.techmoa.global.security.oauth.Oauth2Provider;
 
 @Slf4j
 @Service
@@ -28,6 +38,7 @@ import team.jokimyoon.techmoa.global.security.oauth.Oauth2Provider;
 public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
+	private final UserMapper userMapper;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -82,8 +93,8 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 		String email = userAttribute.get("email").toString();
 
 		return Oauth2UserInfo.builder()
-			.oauth2Provider(oauth2Provider)
-			.oauth2Id(oauth2Id)
+			.oauthProvider(oauth2Provider)
+			.oauthId(oauth2Id)
 			.profileImage(profileImage)
 			.nickname(nickname)
 			.email(email)
@@ -100,8 +111,8 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 		String email = userAttribute.get("email").toString();
 
 		return Oauth2UserInfo.builder()
-			.oauth2Provider(oauth2Provider)
-			.oauth2Id(oauth2Id)
+			.oauthProvider(oauth2Provider)
+			.oauthId(oauth2Id)
 			.profileImage(profileImage)
 			.nickname(nickname)
 			.email(email)
@@ -110,14 +121,9 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 
 	private User updateUser(Oauth2UserInfo oauth2UserInfo) {
 
-		User user = userRepository.findBy(oauth2UserInfo.getOauth2Id(), oauth2UserInfo.getOauth2Provider())
-			.orElse(User.builder()
-				.oauthId(oauth2UserInfo.getOauth2Id())
-				.oauthProvider(oauth2UserInfo.getOauth2Provider())
-				.email(oauth2UserInfo.getEmail())
-				.nickname(oauth2UserInfo.getNickname())
-				.profileImage(oauth2UserInfo.getProfileImage())
-				.build());
+		User user = userRepository
+			.findBy(oauth2UserInfo.getOauthId(), oauth2UserInfo.getOauthProvider())
+			.orElse(userMapper.toEntity(oauth2UserInfo));
 
 		user.changeEmail(oauth2UserInfo.getEmail());
 		user.changeNickname(oauth2UserInfo.getNickname());
@@ -126,5 +132,65 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 		userRepository.saveAndFlush(user);
 
 		return user;
+	}
+
+	@Component
+	@RequiredArgsConstructor
+	public static class Oauth2AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHandler {
+
+		@Value("${spring.security.oauth2.client.failure_redirect_url}")
+		private String failureRedirectUrl;
+
+		@Override
+		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException exception) throws IOException {
+
+			String targetUrl = UriComponentsBuilder
+				.fromUriString(failureRedirectUrl)
+				.queryParam("error", exception.getMessage())
+				.build()
+				.toUriString();
+
+			super.getRedirectStrategy().sendRedirect(request, response, targetUrl);
+		}
+	}
+
+	@Component
+	@RequiredArgsConstructor
+	@Transactional(readOnly = true)
+	public static class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+		@Value("${spring.security.oauth2.client.success_redirect_url}")
+		private String successRedirectUrl;
+
+		@Override
+		public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) throws IOException {
+
+			if (response.isCommitted()) {
+				return;
+			}
+
+			Oauth2CustomUser loginUser = loadUserFromAuthentication(authentication);
+
+			OidcIdToken oidcIdToken = loginUser.getIdToken();
+
+			String targetUrl = UriComponentsBuilder
+				.fromUriString(successRedirectUrl)
+				.queryParam("accessToken", oidcIdToken.getTokenValue())
+				.queryParam("expiresIn", oidcIdToken.getExpiresAt())
+				.toUriString();
+
+			super.getRedirectStrategy().sendRedirect(request, response, targetUrl);
+
+		}
+
+		private Oauth2CustomUser loadUserFromAuthentication(Authentication authentication) {
+			try {
+				return (Oauth2CustomUser)authentication.getPrincipal();
+			} catch (ClassCastException e) {
+				throw new BusinessException(e);
+			}
+		}
 	}
 }

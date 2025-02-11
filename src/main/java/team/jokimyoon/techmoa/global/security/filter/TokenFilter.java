@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,8 +18,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import team.jokimyoon.techmoa.global.exception.BusinessException;
 import team.jokimyoon.techmoa.global.security.oauth.Oauth2CustomUser;
+import team.jokimyoon.techmoa.global.security.token.TokenProvider;
 
 @Slf4j
 public class TokenFilter extends OncePerRequestFilter {
@@ -32,14 +30,7 @@ public class TokenFilter extends OncePerRequestFilter {
 		IOException {
 
 		try {
-			String bearerToken = request.getHeader("Authorization");
-
-			if (!StringUtils.isNotBlank(bearerToken) || !bearerToken.startsWith("Bearer ")) {
-				throw new BusinessException("Not Fount Bearer Token", HttpStatus.BAD_REQUEST);
-			}
-
-			String accessToken = bearerToken.replace("Bearer", "").replace(" ", "");
-
+			String accessToken = TokenProvider.extractAccessTokenHeader(request);
 			Authentication authentication = createAuthenticationFromToken(accessToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 

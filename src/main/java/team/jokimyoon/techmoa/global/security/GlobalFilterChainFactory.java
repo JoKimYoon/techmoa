@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
-import team.jokimyoon.techmoa.global.security.exception.SecurityAccessDeniedHandler;
-import team.jokimyoon.techmoa.global.security.exception.SecurityExceptionHandler;
+import team.jokimyoon.techmoa.global.security.handler.SecurityAccessDeniedHandler;
+import team.jokimyoon.techmoa.global.security.handler.SecurityExceptionHandler;
 
 @Component
 @RequiredArgsConstructor

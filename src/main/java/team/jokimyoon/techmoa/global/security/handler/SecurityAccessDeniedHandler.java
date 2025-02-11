@@ -1,4 +1,4 @@
-package team.jokimyoon.techmoa.global.security.exception;
+package team.jokimyoon.techmoa.global.security.handler;
 
 import java.io.IOException;
 

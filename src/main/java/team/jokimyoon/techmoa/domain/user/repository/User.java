@@ -1,26 +1,30 @@
 package team.jokimyoon.techmoa.domain.user.repository;
 
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.jokimyoon.techmoa.global.model.BaseEntity;
 import team.jokimyoon.techmoa.global.security.oauth.Oauth2Provider;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +49,9 @@ public class User {
 	@Column
 	private String profileImage;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<UserFavorite> favorites;
+
 	@Builder
 	public User(String oauthId, Oauth2Provider oauthProvider, String nickname, String email, String profileImage) {
 		this.uuid = UUID.randomUUID().toString();
@@ -55,7 +62,7 @@ public class User {
 		this.profileImage = profileImage;
 	}
 
-	public void changeProfileImgUrl(String profileImgUrl) {
+	public void changeProfileImgUrl(String profileImage) {
 		this.profileImage = profileImage;
 	}
 

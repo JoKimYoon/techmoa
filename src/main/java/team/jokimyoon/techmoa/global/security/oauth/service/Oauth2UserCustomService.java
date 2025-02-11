@@ -77,14 +77,14 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 		OAuth2AuthenticationException {
 		Map<String, Object> userAttribute = oAuth2User.getAttributes();
 		String oauth2Id = userAttribute.get("id").toString();
-		String profileImageUrl = userAttribute.get("avatar_url").toString();
+		String profileImage = userAttribute.get("avatar_url").toString();
 		String nickname = userAttribute.get("name").toString();
 		String email = userAttribute.get("email").toString();
 
 		return Oauth2UserInfo.builder()
 			.oauth2Provider(oauth2Provider)
 			.oauth2Id(oauth2Id)
-			.profileImgUrl(profileImageUrl)
+			.profileImage(profileImage)
 			.nickname(nickname)
 			.email(email)
 			.build();
@@ -94,7 +94,7 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 	private Oauth2UserInfo loadGoogleUser(OAuth2User oAuth2User, Oauth2Provider oauth2Provider) throws
 		OAuth2AuthenticationException {
 		Map<String, Object> userAttribute = oAuth2User.getAttributes();
-		String profileImageUrl = userAttribute.get("picture").toString();
+		String profileImage = userAttribute.get("picture").toString();
 		String nickname = userAttribute.get("name").toString();
 		String oauth2Id = userAttribute.get("sub").toString();
 		String email = userAttribute.get("email").toString();
@@ -102,7 +102,7 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 		return Oauth2UserInfo.builder()
 			.oauth2Provider(oauth2Provider)
 			.oauth2Id(oauth2Id)
-			.profileImgUrl(profileImageUrl)
+			.profileImage(profileImage)
 			.nickname(nickname)
 			.email(email)
 			.build();
@@ -116,12 +116,12 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 				.oauthProvider(oauth2UserInfo.getOauth2Provider())
 				.email(oauth2UserInfo.getEmail())
 				.nickname(oauth2UserInfo.getNickname())
-				.profileImgUrl(oauth2UserInfo.getProfileImgUrl())
+				.profileImage(oauth2UserInfo.getProfileImage())
 				.build());
 
 		user.changeEmail(oauth2UserInfo.getEmail());
 		user.changeNickname(oauth2UserInfo.getNickname());
-		user.changeProfileImgUrl(oauth2UserInfo.getProfileImgUrl());
+		user.changeProfileImgUrl(oauth2UserInfo.getProfileImage());
 
 		userRepository.saveAndFlush(user);
 

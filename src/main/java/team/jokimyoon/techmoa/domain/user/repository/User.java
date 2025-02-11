@@ -43,20 +43,20 @@ public class User {
 	private String email;
 
 	@Column
-	private String profileImgUrl;
+	private String profileImage;
 
 	@Builder
-	public User(String oauthId, Oauth2Provider oauthProvider, String nickname, String email, String profileImgUrl) {
+	public User(String oauthId, Oauth2Provider oauthProvider, String nickname, String email, String profileImage) {
 		this.uuid = UUID.randomUUID().toString();
 		this.oauthId = oauthId;
 		this.oauthProvider = oauthProvider;
 		this.nickname = nickname;
 		this.email = email;
-		this.profileImgUrl = profileImgUrl;
+		this.profileImage = profileImage;
 	}
 
 	public void changeProfileImgUrl(String profileImgUrl) {
-		this.profileImgUrl = profileImgUrl;
+		this.profileImage = profileImage;
 	}
 
 	public void changeNickname(String nickname) {

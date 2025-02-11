@@ -1,29 +1,18 @@
 package team.jokimyoon.techmoa.global.security.oauth;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.domain.user.model.UserMapper;
@@ -132,65 +121,5 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 		userRepository.saveAndFlush(user);
 
 		return user;
-	}
-
-	@Component
-	@RequiredArgsConstructor
-	public static class Oauth2AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHandler {
-
-		@Value("${spring.security.oauth2.client.failure_redirect_url}")
-		private String failureRedirectUrl;
-
-		@Override
-		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException {
-
-			String targetUrl = UriComponentsBuilder
-				.fromUriString(failureRedirectUrl)
-				.queryParam("error", exception.getMessage())
-				.build()
-				.toUriString();
-
-			super.getRedirectStrategy().sendRedirect(request, response, targetUrl);
-		}
-	}
-
-	@Component
-	@RequiredArgsConstructor
-	@Transactional(readOnly = true)
-	public static class Oauth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
-		@Value("${spring.security.oauth2.client.success_redirect_url}")
-		private String successRedirectUrl;
-
-		@Override
-		public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException {
-
-			if (response.isCommitted()) {
-				return;
-			}
-
-			Oauth2CustomUser loginUser = loadUserFromAuthentication(authentication);
-
-			OidcIdToken oidcIdToken = loginUser.getIdToken();
-
-			String targetUrl = UriComponentsBuilder
-				.fromUriString(successRedirectUrl)
-				.queryParam("accessToken", oidcIdToken.getTokenValue())
-				.queryParam("expiresIn", oidcIdToken.getExpiresAt())
-				.toUriString();
-
-			super.getRedirectStrategy().sendRedirect(request, response, targetUrl);
-
-		}
-
-		private Oauth2CustomUser loadUserFromAuthentication(Authentication authentication) {
-			try {
-				return (Oauth2CustomUser)authentication.getPrincipal();
-			} catch (ClassCastException e) {
-				throw new BusinessException(e);
-			}
-		}
 	}
 }

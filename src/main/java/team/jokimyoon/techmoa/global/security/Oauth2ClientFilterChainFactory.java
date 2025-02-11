@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
+import team.jokimyoon.techmoa.global.security.handler.Oauth2AuthenticationFailHandler;
+import team.jokimyoon.techmoa.global.security.handler.Oauth2AuthenticationSuccessHandler;
 import team.jokimyoon.techmoa.global.security.handler.SecurityAccessDeniedHandler;
 import team.jokimyoon.techmoa.global.security.handler.SecurityExceptionHandler;
 import team.jokimyoon.techmoa.global.security.oauth.Oauth2UserCustomService;
@@ -17,8 +19,8 @@ import team.jokimyoon.techmoa.global.security.oauth.Oauth2UserCustomService;
 public class Oauth2ClientFilterChainFactory {
 
 	private final Oauth2UserCustomService oauth2UserCustomService;
-	private final Oauth2UserCustomService.Oauth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
-	private final Oauth2UserCustomService.Oauth2AuthenticationFailHandler oauth2AuthenticationFailHandler;
+	private final Oauth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
+	private final Oauth2AuthenticationFailHandler oauth2AuthenticationFailHandler;
 
 	private final SecurityAccessDeniedHandler securityAccessDeniedHandler;
 	private final SecurityExceptionHandler securityExceptionHandler;

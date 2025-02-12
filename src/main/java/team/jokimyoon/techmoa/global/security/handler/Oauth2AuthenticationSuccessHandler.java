@@ -1,4 +1,4 @@
-package team.jokimyoon.techmoa.global.security.oauth;
+package team.jokimyoon.techmoa.global.security.handler;
 
 import java.io.IOException;
 
@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import team.jokimyoon.techmoa.global.exception.BusinessException;
+import team.jokimyoon.techmoa.global.security.oauth.Oauth2CustomUser;
 
 @Component
 @RequiredArgsConstructor

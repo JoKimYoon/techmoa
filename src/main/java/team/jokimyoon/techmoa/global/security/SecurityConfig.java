@@ -20,8 +20,9 @@ public class SecurityConfig {
 
 	private final Oauth2ClientFilterChainFactory oauth2ClientFilterChainFactory;
 	private final GlobalFilterChainFactory globalFilterChainFactory;
+	private final ApiFilterChainFactory apiFilterChainFactory;
 
-	@Value("${security.mode.debug}")
+	@Value("${debug.mode.security:false}")
 	private boolean securityDebugMode;
 
 	@Bean
@@ -37,6 +38,12 @@ public class SecurityConfig {
 
 	@Bean
 	@Order(2)
+	public SecurityFilterChain apiSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+		return apiFilterChainFactory.createFilterChain(httpSecurity, customCorsConfigurationSource());
+	}
+
+	@Bean
+	@Order(3)
 	public SecurityFilterChain globalSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		return globalFilterChainFactory.createFilterChain(httpSecurity, customCorsConfigurationSource());
 	}

@@ -1,4 +1,4 @@
-package team.jokimyoon.techmoa.global.security.oauth.service;
+package team.jokimyoon.techmoa.global.security.oauth;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,11 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import team.jokimyoon.techmoa.domain.user.model.UserMapper;
 import team.jokimyoon.techmoa.domain.user.repository.User;
 import team.jokimyoon.techmoa.domain.user.repository.UserRepository;
 import team.jokimyoon.techmoa.global.exception.BusinessException;
-import team.jokimyoon.techmoa.global.security.oauth.Oauth2CustomUser;
-import team.jokimyoon.techmoa.global.security.oauth.Oauth2Provider;
 
 @Slf4j
 @Service
@@ -28,6 +27,7 @@ import team.jokimyoon.techmoa.global.security.oauth.Oauth2Provider;
 public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
+	private final UserMapper userMapper;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -77,14 +77,14 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 		OAuth2AuthenticationException {
 		Map<String, Object> userAttribute = oAuth2User.getAttributes();
 		String oauth2Id = userAttribute.get("id").toString();
-		String profileImageUrl = userAttribute.get("avatar_url").toString();
+		String profileImage = userAttribute.get("avatar_url").toString();
 		String nickname = userAttribute.get("name").toString();
 		String email = userAttribute.get("email").toString();
 
 		return Oauth2UserInfo.builder()
-			.oauth2Provider(oauth2Provider)
-			.oauth2Id(oauth2Id)
-			.profileImgUrl(profileImageUrl)
+			.oauthProvider(oauth2Provider)
+			.oauthId(oauth2Id)
+			.profileImage(profileImage)
 			.nickname(nickname)
 			.email(email)
 			.build();
@@ -94,15 +94,15 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 	private Oauth2UserInfo loadGoogleUser(OAuth2User oAuth2User, Oauth2Provider oauth2Provider) throws
 		OAuth2AuthenticationException {
 		Map<String, Object> userAttribute = oAuth2User.getAttributes();
-		String profileImageUrl = userAttribute.get("picture").toString();
+		String profileImage = userAttribute.get("picture").toString();
 		String nickname = userAttribute.get("name").toString();
 		String oauth2Id = userAttribute.get("sub").toString();
 		String email = userAttribute.get("email").toString();
 
 		return Oauth2UserInfo.builder()
-			.oauth2Provider(oauth2Provider)
-			.oauth2Id(oauth2Id)
-			.profileImgUrl(profileImageUrl)
+			.oauthProvider(oauth2Provider)
+			.oauthId(oauth2Id)
+			.profileImage(profileImage)
 			.nickname(nickname)
 			.email(email)
 			.build();
@@ -110,18 +110,13 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
 
 	private User updateUser(Oauth2UserInfo oauth2UserInfo) {
 
-		User user = userRepository.findBy(oauth2UserInfo.getOauth2Id(), oauth2UserInfo.getOauth2Provider())
-			.orElse(User.builder()
-				.oauthId(oauth2UserInfo.getOauth2Id())
-				.oauthProvider(oauth2UserInfo.getOauth2Provider())
-				.email(oauth2UserInfo.getEmail())
-				.nickname(oauth2UserInfo.getNickname())
-				.profileImgUrl(oauth2UserInfo.getProfileImgUrl())
-				.build());
+		User user = userRepository
+			.findBy(oauth2UserInfo.getOauthId(), oauth2UserInfo.getOauthProvider())
+			.orElse(userMapper.toEntity(oauth2UserInfo));
 
 		user.changeEmail(oauth2UserInfo.getEmail());
 		user.changeNickname(oauth2UserInfo.getNickname());
-		user.changeProfileImgUrl(oauth2UserInfo.getProfileImgUrl());
+		user.changeProfileImgUrl(oauth2UserInfo.getProfileImage());
 
 		userRepository.saveAndFlush(user);
 

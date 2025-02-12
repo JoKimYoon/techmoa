@@ -20,6 +20,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.global.exception.BusinessException;
 
@@ -31,7 +32,7 @@ public class TokenProvider {
 	private static final long DEFAULT_ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7L;
 	private static final String TOKEN_TYPE = "Bearer";
 
-	@Value("${security.jwt.secret}")
+	@Value("${spring.security.jwt.secret}")
 	public void setSecret(String secret) {
 		key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 	}
@@ -86,6 +87,16 @@ public class TokenProvider {
 		} catch (Exception e) {
 			throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR, e);
 		}
+	}
+
+	public static String extractAccessTokenHeader(HttpServletRequest request) {
+
+		String bearerToken = request.getHeader("Authorization");
+
+		if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
+			throw new BusinessException(HttpStatus.UNAUTHORIZED);
+		}
+		return bearerToken.replaceAll("Bearer", "").replaceAll("", "");
 	}
 
 }

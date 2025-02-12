@@ -38,9 +38,12 @@ dependencies {
 
     //Tools
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
 
     //Mornitoring
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

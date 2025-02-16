@@ -14,8 +14,8 @@ jobs:
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             cd /home/techmoa/techmoa-backend  
-            git checkout develop
-            git pull origin develop
+            git checkout feature/release-test
+            git pull origin feature/release-test
           EOF
 
       - name: Build and Deploy

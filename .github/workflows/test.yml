@@ -13,5 +13,7 @@ jobs:
       - name: test
         run: |
           sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-            mkdir -p /home/techmoa/test
+            cd /home/deploy/backend  
+            git checkout develop
+            git pull origin develop
           EOF

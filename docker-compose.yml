@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  backend:
+    container_name: techmoa-backend
+    build:
+      context: .
+      dockerfile: ./DockerFile
+    ports:
+      - "8080:8080"

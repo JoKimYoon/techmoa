@@ -40,3 +40,5 @@ out/
 *.yaml
 *.properties
 
+### OS ###
+.DS_Store

@@ -1,12 +1,16 @@
 package team.jokimyoon.techmoa.domain.collector;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
 import team.jokimyoon.techmoa.domain.post.model.CollectorName;
 
 @Component(CollectorName.LINE)
+@RequiredArgsConstructor
 public class LinePostCollector implements PostCollector {
 
+	@Async
 	@Override
 	public void collectPosts(String targetUrl) {
 

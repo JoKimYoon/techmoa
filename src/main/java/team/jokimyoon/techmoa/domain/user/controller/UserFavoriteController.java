@@ -25,7 +25,7 @@ public class UserFavoriteController {
 
 	@GetMapping
 	public ApiResponse<List<UserFavoriteDto>> getFavorites(@Auth AuthDto authDto) {
-
+		return null;
 	}
 
 	@PostMapping("/{postUuid}")
@@ -33,6 +33,7 @@ public class UserFavoriteController {
 		@Auth AuthDto authDto,
 		@RequestBody UserFavoriteDto userFavoriteDto) {
 
+		return null;
 	}
 
 	@DeleteMapping("")
@@ -40,6 +41,7 @@ public class UserFavoriteController {
 		@Auth AuthDto authDto,
 		@RequestBody UserFavoriteDto userFavoriteDto) {
 
+		return null;
 	}
 
 }

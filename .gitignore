@@ -37,8 +37,9 @@ out/
 .vscode/
 
 ### ENV ###
-*.yaml
-*.properties
+/src/main/resources/*.yaml
+/src/main/resources/*.yml
+/src/main/resources/*.properties
 
 ### OS ###
 .DS_Store

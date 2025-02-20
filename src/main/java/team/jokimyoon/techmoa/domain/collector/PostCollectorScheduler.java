@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.domain.post.model.Company;
 import team.jokimyoon.techmoa.domain.post.repository.PostCompany;
 import team.jokimyoon.techmoa.domain.post.repository.PostCompanyRepository;
-import team.jokimyoon.techmoa.global.exception.BusinessException;
 
 @Slf4j
 @Component
@@ -31,7 +30,8 @@ public class PostCollectorScheduler {
 			Company company = postCompany.getName();
 
 			if (!postCollectorMap.containsKey(company.getCollectorName())) {
-				throw new BusinessException("No Controller Found for Company: " + company.getCollectorName());
+				log.warn("No Controller Found for Company : {}", company.getCollectorName());
+				//Todo: 디스코드로 메세지 출력
 			}
 
 			postCollectorMap.get(company.getCollectorName()).collectPosts(postCompany.getTargetUrl());

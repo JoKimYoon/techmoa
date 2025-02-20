@@ -1,6 +1,7 @@
 package team.jokimyoon.techmoa.domain.post.model;
 
 import lombok.Getter;
+import team.jokimyoon.techmoa.domain.collector.model.CollectorName;
 
 @Getter
 public enum Company {

@@ -4,7 +4,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
-import team.jokimyoon.techmoa.domain.post.model.CollectorName;
+import team.jokimyoon.techmoa.domain.collector.model.CollectorName;
 
 @Component(CollectorName.LINE)
 @RequiredArgsConstructor

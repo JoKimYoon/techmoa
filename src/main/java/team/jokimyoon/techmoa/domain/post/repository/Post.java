@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 import team.jokimyoon.techmoa.global.model.BaseEntity;
 
 @Getter
-@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

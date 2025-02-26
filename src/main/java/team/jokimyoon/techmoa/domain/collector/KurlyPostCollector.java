@@ -8,7 +8,7 @@ import team.jokimyoon.techmoa.domain.collector.model.CollectorName;
 
 @Component(CollectorName.KURLY)
 @RequiredArgsConstructor
-public class KcurlyPostCollector implements PostCollector {
+public class KurlyPostCollector implements PostCollector {
 
 	@Async
 	@Override

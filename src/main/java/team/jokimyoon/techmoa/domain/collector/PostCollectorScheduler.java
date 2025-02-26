@@ -20,7 +20,7 @@ public class PostCollectorScheduler {
 	private final Map<String, PostCollector> postCollectorMap;
 	private final PostCompanyRepository postCompanyRepository;
 
-	@Scheduled(cron = "0 0 0 1 * *")
+	@Scheduled(cron = "0 0 0 * * *")
 	public void collectPosts() {
 
 		List<PostCompany> postCompanyList = postCompanyRepository.findAll();

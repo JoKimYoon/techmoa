@@ -1,5 +1,7 @@
 package team.jokimyoon.techmoa.domain.post.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostRepositoryJpa extends JpaRepository<Post, Long> {
@@ -13,5 +15,7 @@ public interface PostRepositoryJpa extends JpaRepository<Post, Long> {
 	// 		LIMIT 20
 	// );
 	// Slice<Post> findAll(Pageable pageable);
+
+	List<Post> findAllByPostCompany(PostCompany postCompany);
 
 }

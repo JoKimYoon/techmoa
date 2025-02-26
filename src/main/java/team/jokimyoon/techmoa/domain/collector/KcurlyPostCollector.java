@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import team.jokimyoon.techmoa.domain.collector.model.CollectorName;
 
-@Component(CollectorName.KCURLY)
+@Component(CollectorName.KURLY)
 @RequiredArgsConstructor
 public class KcurlyPostCollector implements PostCollector {
 

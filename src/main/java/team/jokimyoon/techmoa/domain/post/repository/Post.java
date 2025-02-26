@@ -1,6 +1,7 @@
 package team.jokimyoon.techmoa.domain.post.repository;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,5 +50,23 @@ public class Post extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_company_id")
 	private PostCompany postCompany;
+
+	@Builder
+	public Post(
+		String guid,
+		String title,
+		String summary,
+		String url,
+		LocalDateTime publishedAt,
+		PostCompany postCompany) {
+
+		this.uuid = UUID.randomUUID().toString();
+		this.guid = guid;
+		this.title = title;
+		this.summary = summary;
+		this.url = url;
+		this.publishedAt = publishedAt;
+		this.postCompany = postCompany;
+	}
 
 }

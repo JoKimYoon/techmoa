@@ -15,6 +15,7 @@ import org.jdom2.input.SAXBuilder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.domain.collector.model.dto.KurlyPostDto;
@@ -40,6 +41,7 @@ public class KurlyPostCollector implements PostCollector {
 
 	@Async
 	@Override
+	@Transactional
 	public void collectPosts(String postCompanyUrl, Long postCompanyId) {
 
 		String kurlyRssData = restClientUtil.get(postCompanyUrl, String.class);

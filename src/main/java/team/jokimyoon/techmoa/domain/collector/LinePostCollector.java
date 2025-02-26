@@ -12,7 +12,7 @@ public class LinePostCollector implements PostCollector {
 
 	@Async
 	@Override
-	public void collectPosts(String targetUrl) {
+	public void collectPosts(String postCompanyUrl, Long postCompanyId) {
 
 	}
 }

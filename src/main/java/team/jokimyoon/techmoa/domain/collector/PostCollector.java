@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface PostCollector {
 
-	void collectPosts(String targetUrl);
+	void collectPosts(String postCompanyUrl, Long postCompanyId);
 }

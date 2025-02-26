@@ -34,7 +34,8 @@ public class PostCollectorScheduler {
 				//Todo: 디스코드로 메세지 출력
 			}
 
-			postCollectorMap.get(company.getCollectorName()).collectPosts(postCompany.getTargetUrl());
+			postCollectorMap.get(company.getCollectorName())
+				.collectPosts(postCompany.getTargetUrl(), postCompany.getId());
 		}
 	}
 }

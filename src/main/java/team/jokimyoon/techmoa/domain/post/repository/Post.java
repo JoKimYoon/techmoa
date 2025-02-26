@@ -32,6 +32,9 @@ public class Post extends BaseEntity {
 	private String uuid;
 
 	@Column
+	private String guid;
+
+	@Column
 	private String title;
 
 	@Column

@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import team.jokimyoon.techmoa.domain.post.model.Company;
+import team.jokimyoon.techmoa.domain.post.model.vo.Company;
 
 @Getter
 @Builder

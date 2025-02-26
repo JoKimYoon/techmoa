@@ -1,4 +1,4 @@
-package team.jokimyoon.techmoa.domain.collector.model;
+package team.jokimyoon.techmoa.domain.collector.model.vo;
 
 import lombok.Getter;
 

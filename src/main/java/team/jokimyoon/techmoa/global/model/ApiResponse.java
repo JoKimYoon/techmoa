@@ -1,7 +1,9 @@
 package team.jokimyoon.techmoa.global.model;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 public class ApiResponse<T> {
 

@@ -20,10 +20,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.domain.collector.model.dto.KurlyPostDto;
 import team.jokimyoon.techmoa.domain.collector.model.vo.CollectorName;
-import team.jokimyoon.techmoa.domain.post.repository.Post;
-import team.jokimyoon.techmoa.domain.post.repository.PostCompany;
 import team.jokimyoon.techmoa.domain.post.repository.PostCompanyRepository;
 import team.jokimyoon.techmoa.domain.post.repository.PostRepository;
+import team.jokimyoon.techmoa.domain.post.repository.entity.Post;
+import team.jokimyoon.techmoa.domain.post.repository.entity.PostCompany;
 import team.jokimyoon.techmoa.global.util.RestClientUtil;
 import team.jokimyoon.techmoa.global.util.StringUtil;
 

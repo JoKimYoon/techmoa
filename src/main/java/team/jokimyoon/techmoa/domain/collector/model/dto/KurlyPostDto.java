@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import team.jokimyoon.techmoa.domain.post.repository.Post;
-import team.jokimyoon.techmoa.domain.post.repository.PostCompany;
+import team.jokimyoon.techmoa.domain.post.repository.entity.Post;
+import team.jokimyoon.techmoa.domain.post.repository.entity.PostCompany;
 
 @Getter
 @Builder

@@ -1,4 +1,4 @@
-package team.jokimyoon.techmoa.domain.post.repository;
+package team.jokimyoon.techmoa.domain.post.repository.entity;
 
 import java.time.LocalDate;
 import java.util.UUID;

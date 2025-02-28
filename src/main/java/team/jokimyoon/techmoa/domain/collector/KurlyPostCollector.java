@@ -73,6 +73,7 @@ public class KurlyPostCollector implements PostCollector {
 					post.changePublishedAt(kurlyPostDto.getPubDate());
 				}
 			}
+			kurlyPostDtoMap.remove(post.getGuid());
 		}
 
 		for (String key : kurlyPostDtoMap.keySet()) {

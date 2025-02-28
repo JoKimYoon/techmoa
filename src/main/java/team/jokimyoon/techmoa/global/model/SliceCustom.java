@@ -13,4 +13,5 @@ public class SliceCustom<T> {
 	private final int pageSize = 20;
 	private final boolean hasNext;
 	private final List<T> data;
+	private final Object lastIndex;
 }

@@ -20,6 +20,8 @@ public class SecurityAccessDeniedHandler implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 		AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
+		//catch (MalformedJwtException | ExpiredJwtException | NoSuchElementException e) {
+		//jwt token 에러 여기서 처리
 		//Todo LOGGING 및 동일한 스펙의 response data 출력
 	}
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/Default}"
+>
+<div layout:fragment="content">
+
+    <div id="post-card-list" class="post-preview">
+    </div>
+
+
+    <script th:inline="javascript" type="text/javascript">
+
+        let lastPublishedAt = `[[${lastPublishedAt}]]`.replaceAll("\"", "");
+        let pageSize = `[[${pageSize}]]`;
+        let hasNext = true;
+
+        $(document).ready(
+            () => {
+                getPostCardList();
+            }
+        )
+        window.addEventListener("scroll", function () {
+
+            if (hasNext === false) {
+                return;
+            }
+
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                getPostCardList(); // 요청 끝나면 다시 false
+            }
+        });
+
+
+        function getPostCardList() {
+
+
+            $.ajax({
+                url: "/api/v1/posts" + "?" + "lastPublishedAt=" + lastPublishedAt + "&" + "pageSize=" + pageSize,
+                method: "get",
+                dataType: "json",
+                success: (res) => {
+                    lastPublishedAt = res.data.lastIndex;
+                    pageSize = res.data.pageSize;
+                    hasNext = res.data.hasNext;
+                    createPostCardList(res.data.data);
+                },
+                error: (data, status, error) => {
+                    alert(data.responseJSON.message)
+                    console.log("data : ", data)
+                    console.log("status : ", status)
+                    console.log("error : ", error)
+                }
+            });
+        }
+
+        function createPostCardList(postCarList) {
+
+            $.ajax({
+                url: "/posts/card-list",
+                method: "post",
+                dataType: "html",
+                contentType: "application/json",
+                data: JSON.stringify(postCarList),
+                success: (res) => {
+                    let postCardList = new DOMParser()
+                        .parseFromString(res, 'text/html')
+                        .getElementById("post-card-list");
+                    $("#post-card-list").append(postCardList);
+                },
+                error: (data, status, error) => {
+                    alert(data.responseJSON.message)
+                    console.log("data : ", data)
+                    console.log("status : ", status)
+                    console.log("error : ", error)
+                }
+            });
+        }
+    </script>
+</div>
+
+</html>

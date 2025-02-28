@@ -3,7 +3,6 @@ package team.jokimyoon.techmoa.global.security.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,8 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,10 +33,8 @@ public class TokenFilter extends OncePerRequestFilter {
 
 			log.info("[JwtAuthenticationFilter] function : doFilterInternal | message : 토큰 인증 완료");
 
-		} catch (MalformedJwtException | ExpiredJwtException | NoSuchElementException e) {
-			response.sendError(401, e.getMessage());
 		} catch (Exception e) {
-			response.sendError(500, e.getMessage());
+			request.setAttribute("exception", e);
 		} finally {
 			chain.doFilter(request, response);
 		}

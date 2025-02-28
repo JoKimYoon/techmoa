@@ -23,10 +23,13 @@ public class PostService {
 
 		boolean hasNext = postList.size() > pageSize;
 
+		lastPublishedAt = postList.isEmpty() ? LocalDate.now() : postList.getLast().getPublishedAt();
+
 		return SliceCustom.<PostDto>builder()
 			.data(postList)
 			.hasNext(hasNext)
 			.pageSize(pageSize)
+			.lastIndex(lastPublishedAt)
 			.build();
 	}
 }

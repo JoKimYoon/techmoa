@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.post-meta-container {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 요소 간 간격 조정 */
+}
+
+.post-meta-container img {
+    height: 100%; /* 부모 요소(p)의 높이에 맞춤 */
+    max-height: 1em; /* 글자 크기에 맞추되 너무 커지지 않도록 */
+    width: auto;
+}

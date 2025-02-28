@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<div th:fragment="post-card-list" id="post-card-list" class="post-preview">
+
+    <th:block th:each="data : ${dataList}">
+        <a th:href="${data.getUrl()}">
+            <h2 th:text="${data.getTitle()}" class="post-title"></h2>
+            <p th:text="${data.getSummary()}" class="post-subtitle"></p>
+        </a>
+        <div th:if="${data.getPostCompany() != null && not #strings.isEmpty(data.getPostCompany().getIconImage())}"
+             class="post-meta-container">
+            <p class="post-meta">Posted by</p>
+            <img th:src="${data.getPostCompany().getIconImage()}" alt="Company Icon"/>
+            <p th:text="${data.getPostCompany.getName()}" class="post-meta">
+            </p>
+            <p th:text="${' on ' + data.getPublishedAt()}" class="post-meta"></p>
+        </div>
+        <div th:unless="${data.getPostCompany() != null && not #strings.isEmpty(data.getPostCompany().getIconImage())}">
+            <p th:text="${'Posted by ' + data.getPostCompany.getName() + ' on ' + data.getPublishedAt()}"
+               class="post-meta">
+            </p>
+        </div>
+        <hr class="my-4"/>
+    </th:block>
+</div>
+</html>

@@ -11,7 +11,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import team.jokimyoon.techmoa.domain.post.repository.Post;
+import team.jokimyoon.techmoa.domain.post.repository.entity.Post;
 import team.jokimyoon.techmoa.global.model.BaseEntity;
 
 @Entity

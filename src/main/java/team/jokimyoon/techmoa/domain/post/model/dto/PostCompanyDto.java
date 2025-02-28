@@ -1,25 +1,19 @@
 package team.jokimyoon.techmoa.domain.post.model.dto;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import team.jokimyoon.techmoa.domain.post.model.vo.Company;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDto {
+public class PostCompanyDto {
 	private String uuid;
-	private String title;
-	private String summary;
-	private String url;
-	private LocalDate publishedAt;
-	private PostCompanyDto postCompany;
+	private Company name;
+	private String iconImage;
 }
-
-

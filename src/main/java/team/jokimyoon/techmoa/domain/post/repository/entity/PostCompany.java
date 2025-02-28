@@ -1,4 +1,4 @@
-package team.jokimyoon.techmoa.domain.post.repository;
+package team.jokimyoon.techmoa.domain.post.repository.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

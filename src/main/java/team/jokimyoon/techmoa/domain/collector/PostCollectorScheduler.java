@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.domain.post.model.vo.Company;
-import team.jokimyoon.techmoa.domain.post.repository.PostCompany;
 import team.jokimyoon.techmoa.domain.post.repository.PostCompanyRepository;
+import team.jokimyoon.techmoa.domain.post.repository.entity.PostCompany;
 
 @Slf4j
 @Component

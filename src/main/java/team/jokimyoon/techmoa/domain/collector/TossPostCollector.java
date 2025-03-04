@@ -3,10 +3,8 @@ package team.jokimyoon.techmoa.domain.collector;
 import lombok.extern.slf4j.Slf4j;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +17,6 @@ import team.jokimyoon.techmoa.domain.post.repository.entity.PostCompany;
 import team.jokimyoon.techmoa.global.util.RestClientUtil;
 import team.jokimyoon.techmoa.global.util.StringUtil;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;

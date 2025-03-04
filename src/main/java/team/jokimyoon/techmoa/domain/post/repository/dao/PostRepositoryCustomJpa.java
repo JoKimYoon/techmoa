@@ -25,7 +25,7 @@ public interface PostRepositoryCustomJpa extends JpaRepository<Post, Long> {
 		FROM post A
 		LEFT JOIN post_company B FORCE INDEX (`PRIMARY`) ON A.post_company_id = B.id
 		WHERE A.published_at < :lastPublishedAt
-		ORDER BY A.published_at DESC
+		ORDER BY A.published_at DESC, A.title DESC
 		LIMIT :limitSize;
 		""", nativeQuery = true)
 	List<PostProjection> findAllByPublishedAtDesc(LocalDateTime lastPublishedAt, int limitSize);

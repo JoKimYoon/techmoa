@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.collector.model.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,7 @@ public class LinePostDto {
 	private String description;
 	private String link;
 	private String guid;
-	private LocalDate pubDate;
+	private LocalDateTime pubDate;
 
 	public Post toEntity(PostCompany postCompany) {
 

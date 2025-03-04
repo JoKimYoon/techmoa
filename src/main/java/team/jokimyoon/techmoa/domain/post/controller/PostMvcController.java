@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.post.controller;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +23,11 @@ public class PostMvcController {
 
 	@GetMapping
 	public String postsPage(
-		@RequestParam(required = false) Optional<LocalDate> lastPublishedAt,
+		@RequestParam(required = false) Optional<LocalDateTime> lastPublishedAt,
 		@RequestParam(required = false) Optional<Integer> pageSize,
 		Model model) {
 
-		LocalDate lastPublishedAtValue = lastPublishedAt.orElse(LocalDate.now());
+		LocalDateTime lastPublishedAtValue = lastPublishedAt.orElse(LocalDateTime.now());
 		Integer pageSizeValue = pageSize.orElse(SliceCustom.DEFAULT_PAGE_SIZE);
 
 		model.addAttribute("lastPublishedAt", lastPublishedAtValue);

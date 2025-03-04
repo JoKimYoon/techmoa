@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.post.repository.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -56,9 +56,9 @@ public class Post extends BaseEntity {
 	}
 
 	@Column
-	private LocalDate publishedAt;
+	private LocalDateTime publishedAt;
 
-	public void changePublishedAt(LocalDate publishedAt) {
+	public void changePublishedAt(LocalDateTime publishedAt) {
 		this.publishedAt = publishedAt;
 	}
 
@@ -72,7 +72,7 @@ public class Post extends BaseEntity {
 		String title,
 		String summary,
 		String url,
-		LocalDate publishedAt,
+		LocalDateTime publishedAt,
 		PostCompany postCompany) {
 
 		this.uuid = UUID.randomUUID().toString();

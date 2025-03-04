@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.post.model.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,7 @@ public class PostDto {
 	private String title;
 	private String summary;
 	private String url;
-	private LocalDate publishedAt;
+	private LocalDateTime publishedAt;
 	private PostCompanyDto postCompany;
 }
 

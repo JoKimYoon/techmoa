@@ -1,7 +1,7 @@
 package team.jokimyoon.techmoa.domain.collector;
 
 import java.io.StringReader;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -109,7 +109,7 @@ public class LinePostCollector implements PostCollector {
 					description = title;
 				}
 
-				LocalDate pubDate = extractPubDate(item);
+				LocalDateTime pubDate = extractPubDate(item);
 
 				String guid = extractGuid(item);
 				if (StringUtil.isNullOrEmpty(guid)) {
@@ -133,7 +133,6 @@ public class LinePostCollector implements PostCollector {
 
 		return linePostDtoList;
 	}
-
 
 	private String extractTitle(Element item) {
 		try {
@@ -162,13 +161,13 @@ public class LinePostCollector implements PostCollector {
 		}
 	}
 
-	private LocalDate extractPubDate(Element item) {
+	private LocalDateTime extractPubDate(Element item) {
 		try {
 			String pubDateRaw = item.getChild("pubDate").getContent().getFirst().getValue();
-			return ZonedDateTime.parse(pubDateRaw, formatter).toLocalDate();
+			return ZonedDateTime.parse(pubDateRaw, formatter).toLocalDateTime();
 		} catch (Exception e) {
 			log.warn(e.getMessage(), e);
-			return LocalDate.now();
+			return LocalDateTime.now();
 		}
 	}
 

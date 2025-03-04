@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.post.repository.dao;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,9 +25,9 @@ public interface PostRepositoryCustomJpa extends JpaRepository<Post, Long> {
 		FROM post A
 		LEFT JOIN post_company B FORCE INDEX (`PRIMARY`) ON A.post_company_id = B.id
 		WHERE A.published_at < :lastPublishedAt
-		ORDER BY A.published_at DESC
+		ORDER BY A.published_at DESC, A.title DESC
 		LIMIT :limitSize;
 		""", nativeQuery = true)
-	List<PostProjection> findAllByPublishedAtDesc(LocalDate lastPublishedAt, int limitSize);
+	List<PostProjection> findAllByPublishedAtDesc(LocalDateTime lastPublishedAt, int limitSize);
 
 }

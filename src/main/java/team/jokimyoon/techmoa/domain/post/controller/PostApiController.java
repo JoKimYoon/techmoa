@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.post.controller;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +23,10 @@ public class PostApiController {
 
 	@GetMapping
 	public ApiResponse<SliceCustom<PostDto>> getPostList(
-		@RequestParam(required = false) Optional<LocalDate> lastPublishedAt,
+		@RequestParam(required = false) Optional<LocalDateTime> lastPublishedAt,
 		@RequestParam(required = false) Optional<Integer> pageSize) {
 
-		LocalDate lastPublishedAtValue = lastPublishedAt.orElse(LocalDate.now());
+		LocalDateTime lastPublishedAtValue = lastPublishedAt.orElse(LocalDateTime.now());
 		Integer pageSizeValue = pageSize.orElse(SliceCustom.DEFAULT_PAGE_SIZE);
 
 		SliceCustom<PostDto> data = postService.getPostList(lastPublishedAtValue, pageSizeValue);

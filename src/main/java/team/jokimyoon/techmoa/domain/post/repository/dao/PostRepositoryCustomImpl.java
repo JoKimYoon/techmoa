@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.post.repository.dao;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 	private final PostMapper postMapper;
 
 	@Override
-	public List<PostDto> findAllByPublishedAtDesc(LocalDate lastPublishedAt, int limitSize) {
+	public List<PostDto> findAllByPublishedAtDesc(LocalDateTime lastPublishedAt, int limitSize) {
 		List<PostProjection> postProjectionList
 			= postRepositoryCustomJpa.findAllByPublishedAtDesc(lastPublishedAt, limitSize);
 

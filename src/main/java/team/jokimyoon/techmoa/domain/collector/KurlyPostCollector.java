@@ -1,7 +1,7 @@
 package team.jokimyoon.techmoa.domain.collector;
 
 import java.io.StringReader;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -110,7 +110,7 @@ public class KurlyPostCollector implements PostCollector {
 					description = title;
 				}
 
-				LocalDate pubDate = extractPubDate(item);
+				LocalDateTime pubDate = extractPubDate(item);
 
 				String guid = extractGuid(item);
 				if (StringUtil.isNullOrEmpty(guid)) {
@@ -162,14 +162,14 @@ public class KurlyPostCollector implements PostCollector {
 		}
 	}
 
-	private LocalDate extractPubDate(Element item) {
+	private LocalDateTime extractPubDate(Element item) {
 		try {
 			String pubDateRaw = item.getChild("pubDate").getContent().getFirst().getValue();
-			LocalDate pubDate;
-			return ZonedDateTime.parse(pubDateRaw, formatter).toLocalDate();
+			LocalDateTime pubDate;
+			return ZonedDateTime.parse(pubDateRaw, formatter).toLocalDateTime();
 		} catch (Exception e) {
 			log.warn(e.getMessage(), e);
-			return LocalDate.now();
+			return LocalDateTime.now();
 		}
 	}
 

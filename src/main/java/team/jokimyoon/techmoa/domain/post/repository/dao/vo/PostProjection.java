@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.post.repository.dao.vo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface PostProjection {
 	String getUuid();
@@ -11,7 +11,7 @@ public interface PostProjection {
 
 	String getUrl();
 
-	LocalDate getPublishedAt();
+	LocalDateTime getPublishedAt();
 
 	String getCompanyUuid();
 

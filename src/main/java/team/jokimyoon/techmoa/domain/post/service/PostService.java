@@ -1,6 +1,6 @@
 package team.jokimyoon.techmoa.domain.post.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -18,12 +18,12 @@ public class PostService {
 
 	private final PostRepository postRepository;
 
-	public SliceCustom<PostDto> getPostList(LocalDate lastPublishedAt, int pageSize) {
+	public SliceCustom<PostDto> getPostList(LocalDateTime lastPublishedAt, int pageSize) {
 		List<PostDto> postList = postRepository.findAllByPublishedAtDesc(lastPublishedAt, pageSize + 1);
 
 		boolean hasNext = postList.size() > pageSize;
 
-		lastPublishedAt = postList.isEmpty() ? LocalDate.now() : postList.getLast().getPublishedAt();
+		lastPublishedAt = postList.isEmpty() ? LocalDateTime.now() : postList.getLast().getPublishedAt();
 
 		return SliceCustom.<PostDto>builder()
 			.data(postList)

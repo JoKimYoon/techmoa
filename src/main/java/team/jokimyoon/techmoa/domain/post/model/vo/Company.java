@@ -10,7 +10,8 @@ import team.jokimyoon.techmoa.global.exception.BusinessException;
 public enum Company {
 	KURLY(CollectorName.KURLY),
 	LINE(CollectorName.LINE),
-	TOSS(CollectorName.TOSS);
+	TOSS(CollectorName.TOSS),
+	NAVER(CollectorName.NAVER);
 
 	private final String collectorName;
 
@@ -19,6 +20,7 @@ public enum Company {
 			case "KURLY" -> KURLY;
 			case "LINE" -> LINE;
 			case "TOSS" -> TOSS;
+			case "NAVER" -> NAVER;
 			default -> throw new BusinessException("Invalid company name: " + name);
 		};
 	}

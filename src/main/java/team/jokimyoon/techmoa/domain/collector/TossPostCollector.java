@@ -36,7 +36,7 @@ public class TossPostCollector implements PostCollector {
 	private final RestClientUtil restClientUtil;
 
 	private final DateTimeFormatter formatter
-			= DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+			= DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
 
 	@Async
 	@Override

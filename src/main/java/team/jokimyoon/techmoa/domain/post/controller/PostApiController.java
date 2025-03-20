@@ -1,9 +1,11 @@
 package team.jokimyoon.techmoa.domain.post.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +34,17 @@ public class PostApiController {
 		SliceCustom<PostDto> data = postService.getPostList(lastPublishedAtValue, pageSizeValue);
 
 		return ApiResponse.success(data);
+	}
+
+	@GetMapping("/search")
+	public ApiResponse<List<PostDto>> searchPostList(@RequestParam(required = false) String searchParam) {
+		List<PostDto> postListDtoList = postService.searchPostList(searchParam);
+		return ApiResponse.success(postListDtoList);
+	}
+
+	@PostMapping
+	public ApiResponse<String> insertAllPostsToEs() {
+		postService.savePostListInElasticsearch();
+		return ApiResponse.success();
 	}
 }

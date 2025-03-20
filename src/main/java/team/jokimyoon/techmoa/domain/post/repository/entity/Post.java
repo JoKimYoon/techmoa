@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.jokimyoon.techmoa.domain.post.model.dto.PostCompanyDto;
+import team.jokimyoon.techmoa.domain.post.model.dto.PostDto;
 import team.jokimyoon.techmoa.global.model.BaseEntity;
 
 @Getter
@@ -82,6 +84,25 @@ public class Post extends BaseEntity {
 		this.url = url;
 		this.publishedAt = publishedAt;
 		this.postCompany = postCompany;
+	}
+
+	public PostDto toDto() {
+
+		PostCompanyDto postCompanyDto = PostCompanyDto.builder()
+			.uuid(postCompany.getUuid())
+			.name(postCompany.getName())
+			.iconImage(postCompany.getIconImage())
+			.build();
+
+		return PostDto.builder()
+			.uuid(uuid)
+			.url(url)
+			.title(title)
+			.summary(summary)
+			.publishedAt(publishedAt)
+			.postCompany(postCompanyDto)
+			.build();
+
 	}
 
 }

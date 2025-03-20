@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.domain.post.model.dto.PostDto;
 import team.jokimyoon.techmoa.domain.post.repository.PostRepository;
+import team.jokimyoon.techmoa.domain.post.repository.entity.Post;
 import team.jokimyoon.techmoa.global.model.SliceCustom;
 
 @Slf4j
@@ -31,5 +32,15 @@ public class PostService {
 			.pageSize(pageSize)
 			.lastIndex(lastPublishedAt)
 			.build();
+	}
+
+	public List<PostDto> searchPostList(String searchParam) {
+		return postRepository.findAllByKeyword(searchParam).stream()
+			.map(Post::toDto).toList();
+	}
+
+	public void savePostListInElasticsearch() {
+		List<Post> postList = postRepository.findAll();
+		postRepository.saveAllPostInElasticSearch(postList);
 	}
 }

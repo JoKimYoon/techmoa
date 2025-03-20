@@ -15,6 +15,7 @@
         let lastPublishedAt = `[[${lastPublishedAt}]]`.replaceAll("\"", "");
         let pageSize = `[[${pageSize}]]`;
         let hasNext = true;
+        let isFetching = false;
 
         $(document).ready(
             () => {
@@ -27,6 +28,10 @@
                 return;
             }
 
+            if (isFetching === true) {
+                return;
+            }
+
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
                 getPostCardList(); // 요청 끝나면 다시 false
             }
@@ -35,6 +40,7 @@
 
         function getPostCardList() {
 
+            isFetching = true;
 
             $.ajax({
                 url: "/api/v1/posts" + "?" + "lastPublishedAt=" + lastPublishedAt + "&" + "pageSize=" + pageSize,
@@ -68,6 +74,7 @@
                         .parseFromString(res, 'text/html')
                         .getElementById("post-card-list");
                     $("#post-card-list").append(postCardList);
+                    isFetching = false;
                 },
                 error: (data, status, error) => {
                     alert(data.responseJSON.message)

@@ -39,7 +39,7 @@ out/
 ### ENV ###
 /src/main/resources/*.yaml
 /src/main/resources/*.yml
-/src/main/resources/*.properties
+#/src/main/resources/*.properties
 
 ### OS ###
 .DS_Store

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<div th:fragment="post-search-bar" id="post-search-bar" class="post-preview">
+    <style>
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            height: 50px;
+            border-radius: 30px;
+            padding-left: 35px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #888;
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-11 col-xl-11">
+                <div class="search-container">
+                    <input type="text" id="search-input" class="form-control search-input" placeholder="Search...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript" type="text/javascript">
+
+        let inputFlag = false;
+        let searchInputDom = $("#search-input");
+
+        searchInputDom.on("keyup", function (event) {
+            if (event.key === "Enter") {
+                searchPostCardList();
+            }
+        });
+
+        searchInputDom.on("input", function () {
+            let searchParam = searchInputDom.val().trim();
+
+
+            if (searchParam === "" && inputFlag) {
+                inputFlag = false;
+                lastPublishedAt = ""
+                hasNext = true;
+                $("#post-card-list").empty();
+                getPostCardList();
+            }
+        });
+
+        function searchPostCardList() {
+
+            inputFlag = true;
+
+            let searchParam = searchInputDom.val().trim();
+            if (!searchParam) {
+
+                return;
+            }
+
+            $.ajax({
+                url: "/api/v1/posts/search?searchParam=" + encodeURIComponent(searchParam),
+                method: "get",
+                dataType: "json",
+                success: (res) => {
+                    refreshPostCardList(res.data);
+                },
+                error: (data, status, error) => {
+                    alert(data.responseJSON.message)
+                    console.log("data : ", data)
+                    console.log("status : ", status)
+                    console.log("error : ", error)
+                }
+            });
+        }
+
+        function refreshPostCardList(postCarList) {
+
+            $.ajax({
+                url: "/posts/card-list",
+                method: "post",
+                dataType: "html",
+                contentType: "application/json",
+                data: JSON.stringify(postCarList),
+                success: (res) => {
+                    let postCardList = new DOMParser()
+                        .parseFromString(res, 'text/html')
+                        .getElementById("post-card-list");
+                    $("#post-card-list").empty();
+                    $("#post-card-list").append(postCardList);
+                },
+                error: (data, status, error) => {
+                    alert(data.responseJSON.message)
+                    console.log("data : ", data)
+                    console.log("status : ", status)
+                    console.log("error : ", error)
+                }
+            });
+        }
+    </script>
+</div>

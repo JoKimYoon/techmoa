@@ -42,7 +42,7 @@ public class PostApiController {
 		return ApiResponse.success(postListDtoList);
 	}
 
-	@PostMapping
+	@PostMapping("/search/re-collect")
 	public ApiResponse<String> insertAllPostsToEs() {
 		postService.savePostListInElasticsearch();
 		return ApiResponse.success();

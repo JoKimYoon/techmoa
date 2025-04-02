@@ -41,7 +41,6 @@
 
 
         function getPostCardList() {
-
             isFetching = true;
 
             $.ajax({
@@ -49,42 +48,49 @@
                 method: "get",
                 dataType: "json",
                 success: (res) => {
-                    lastPublishedAt = res.data.lastIndex;
-                    pageSize = res.data.pageSize;
-                    hasNext = res.data.hasNext;
-                    createPostCardList(res.data.data);
+                    let data = res.data;
+                    lastPublishedAt = data.lastIndex;
+                    pageSize = data.pageSize;
+                    hasNext = data.hasNext;
+                    appendPostCardList(data.data);
+                    isFetching = false;
                 },
                 error: (data, status, error) => {
-                    alert(data.responseJSON.message)
-                    console.log("data : ", data)
-                    console.log("status : ", status)
-                    console.log("error : ", error)
+                    alert(data.responseJSON.message);
+                    console.log("data : ", data);
+                    console.log("status : ", status);
+                    console.log("error : ", error);
                 }
             });
         }
 
-        function createPostCardList(postCarList) {
+        function appendPostCardList(dataList) {
+            let html = '';
 
-            $.ajax({
-                url: "/posts/card-list",
-                method: "post",
-                dataType: "html",
-                contentType: "application/json",
-                data: JSON.stringify(postCarList),
-                success: (res) => {
-                    let postCardList = new DOMParser()
-                        .parseFromString(res, 'text/html')
-                        .getElementById("post-card-list");
-                    $("#post-card-list").append(postCardList);
-                    isFetching = false;
-                },
-                error: (data, status, error) => {
-                    alert(data.responseJSON.message)
-                    console.log("data : ", data)
-                    console.log("status : ", status)
-                    console.log("error : ", error)
-                }
+            dataList.forEach(data => {
+                let postCompany = data.postCompany;
+                let hasCompanyInfo = postCompany && postCompany.iconImage && postCompany.iconImage.trim() !== '';
+
+                html += `
+            <a href="${data.url}">
+                <h2 class="post-title">${data.title}</h2>
+                <p class="post-subtitle">${data.summary}</p>
+            </a>
+            <div class="post-meta-container">
+                ${hasCompanyInfo ? `
+                    <p class="post-meta">Posted by</p>
+                    <img src="${postCompany.iconImage}" alt="Company Icon"/>
+                    <p class="post-meta">${postCompany.name}</p>
+                    <p class="post-meta"> on ${data.publishedAt}</p>
+                ` : `
+                    <p class="post-meta">Posted by ${postCompany ? postCompany.name : 'Unknown'} on ${data.publishedAt}</p>
+                `}
+            </div>
+            <hr class="my-4"/>
+        `;
             });
+
+            $("#post-card-list").append(html);
         }
     </script>
 </div>

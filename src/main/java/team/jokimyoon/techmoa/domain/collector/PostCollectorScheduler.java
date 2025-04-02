@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import team.jokimyoon.techmoa.domain.post.model.vo.Company;
 import team.jokimyoon.techmoa.domain.post.repository.PostCompanyRepository;
+import team.jokimyoon.techmoa.domain.post.repository.PostRepository;
+import team.jokimyoon.techmoa.domain.post.repository.entity.Post;
 import team.jokimyoon.techmoa.domain.post.repository.entity.PostCompany;
 
 @Slf4j
@@ -19,6 +21,7 @@ public class PostCollectorScheduler {
 
 	private final Map<String, PostCollector> postCollectorMap;
 	private final PostCompanyRepository postCompanyRepository;
+	private final PostRepository postRepository;
 
 	@Scheduled(cron = "0 0 0 * * *")
 	public void collectPosts() {
@@ -37,5 +40,13 @@ public class PostCollectorScheduler {
 			postCollectorMap.get(company.getCollectorName())
 				.collectPosts(postCompany.getTargetUrl(), postCompany.getId());
 		}
+	}
+
+	@Scheduled
+	@Scheduled(cron = "0 0 1 * * *")
+	public void insertToElasticsearch() {
+		postRepository.deleteAllPostInElasticSearch();
+		List<Post> postList = postRepository.findAll();
+		postRepository.saveAllPostInElasticSearch(postList);
 	}
 }

@@ -42,7 +42,6 @@ public class PostCollectorScheduler {
 		}
 	}
 
-	@Scheduled
 	@Scheduled(cron = "0 0 1 * * *")
 	public void insertToElasticsearch() {
 		postRepository.deleteAllPostInElasticSearch();

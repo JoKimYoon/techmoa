@@ -10,6 +10,7 @@ import java.util.Map;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
+import org.jsoup.Jsoup;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -135,10 +136,11 @@ public class NaverPostCollector implements PostCollector {
 	private String extractContent(Element entry) {
 		try {
 			String content = entry.getChildText("content", entry.getNamespace());
-			if (content.length() > 1000) {
-				content = content.substring(0, 1000);
+			String text = Jsoup.parse(content).text();
+			if (text.length() > 100) {
+				text = text.substring(0, 100) + "...";
 			}
-			return content;
+			return text;
 		} catch (Exception e) {
 			log.warn(e.getMessage(), e);
 			return "";

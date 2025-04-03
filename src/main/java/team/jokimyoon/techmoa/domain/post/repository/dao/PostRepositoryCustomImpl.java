@@ -23,8 +23,42 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
 	@Override
 	public List<PostDto> findAllByPublishedAtDesc(LocalDateTime lastPublishedAt, int limitSize) {
+
 		List<PostProjection> postProjectionList
 			= postRepositoryCustomJpa.findAllByPublishedAtDesc(lastPublishedAt, limitSize);
+
+		if (postProjectionList == null) {
+			return new ArrayList<>();
+		}
+
+		List<PostDto> postList = new ArrayList<>();
+		for (PostProjection postProjection : postProjectionList) {
+			PostCompanyDto postCompanyDto = PostCompanyDto.builder()
+				.uuid(postProjection.getCompanyUuid())
+				.name(Company.of(postProjection.getCompanyName()))
+				.iconImage(postProjection.getCompanyIconImage())
+				.build();
+
+			PostDto post = PostDto.builder()
+				.uuid(postProjection.getUuid())
+				.url(postProjection.getUrl())
+				.title(postProjection.getTitle())
+				.summary(postProjection.getSummary())
+				.publishedAt(postProjection.getPublishedAt())
+				.postCompany(postCompanyDto)
+				.build();
+
+			postList.add(post);
+		}
+
+		return postList;
+	}
+
+	@Override
+	public List<PostDto> findAllByPublishedAtDesc(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+
+		List<PostProjection> postProjectionList
+			= postRepositoryCustomJpa.findAllByPublishedAtDesc(startDateTime, endDateTime);
 
 		if (postProjectionList == null) {
 			return new ArrayList<>();

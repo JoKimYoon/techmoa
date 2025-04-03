@@ -30,4 +30,22 @@ public interface PostRepositoryCustomJpa extends JpaRepository<Post, Long> {
 		""", nativeQuery = true)
 	List<PostProjection> findAllByPublishedAtDesc(LocalDateTime lastPublishedAt, int limitSize);
 
+	@Query(value = """
+		 SELECT
+			 A.uuid AS uuid,
+			 A.guid AS guid,
+			 A.title AS title,
+			 A.summary AS summary,
+			 A.url AS url,
+			 A.published_at AS publishedAt,
+			 B.uuid AS companyUuid,
+			 B.name AS companyName,
+			 B.icon_image AS companyIconImage
+		FROM post A
+		LEFT JOIN post_company B FORCE INDEX (`PRIMARY`) ON A.post_company_id = B.id
+		WHERE :startDateTime <= A.published_at AND A.published_at < :endDateTime
+		ORDER BY A.published_at DESC, A.title DESC
+		""", nativeQuery = true)
+	List<PostProjection> findAllByPublishedAtDesc(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
 }

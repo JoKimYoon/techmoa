@@ -7,4 +7,6 @@ import team.jokimyoon.techmoa.domain.post.model.dto.PostDto;
 
 public interface PostRepositoryCustom {
 	List<PostDto> findAllByPublishedAtDesc(LocalDateTime lastPublishedAt, int limitSize);
+
+	List<PostDto> findAllByPublishedAtDesc(LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

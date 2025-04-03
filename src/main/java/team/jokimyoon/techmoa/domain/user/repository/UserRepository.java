@@ -1,5 +1,6 @@
 package team.jokimyoon.techmoa.domain.user.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("SELECT u FROM User u WHERE u.uuid = :uuid")
 	Optional<User> findByUuid(String uuid);
+
+	@Query("SELECT u FROM User u LEFT JOIN FETCH u.webHook")
+	List<User> findAllFetchWebhook();
+
 }

@@ -13,6 +13,7 @@ import team.jokimyoon.techmoa.domain.post.repository.PostCompanyRepository;
 import team.jokimyoon.techmoa.domain.post.repository.PostRepository;
 import team.jokimyoon.techmoa.domain.post.repository.entity.Post;
 import team.jokimyoon.techmoa.domain.post.repository.entity.PostCompany;
+import team.jokimyoon.techmoa.global.model.CronExpression;
 
 @Slf4j
 @Component
@@ -23,7 +24,7 @@ public class PostCollectorScheduler {
 	private final PostCompanyRepository postCompanyRepository;
 	private final PostRepository postRepository;
 
-	@Scheduled(cron = "0 0 0 * * *")
+	@Scheduled(cron = CronExpression.EVERY_0_O_CLOCK)
 	public void collectPosts() {
 
 		List<PostCompany> postCompanyList = postCompanyRepository.findAll();
@@ -42,7 +43,7 @@ public class PostCollectorScheduler {
 		}
 	}
 
-	@Scheduled(cron = "0 0 1 * * *")
+	@Scheduled(cron = CronExpression.EVERY_1_O_CLOCK)
 	public void insertToElasticsearch() {
 		postRepository.deleteAllPostInElasticSearch();
 		List<Post> postList = postRepository.findAll();

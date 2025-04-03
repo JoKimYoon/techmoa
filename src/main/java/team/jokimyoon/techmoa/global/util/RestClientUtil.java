@@ -17,4 +17,12 @@ public class RestClientUtil {
 			.retrieve()
 			.body(clazz);
 	}
+
+	public <T> T post(String uri, Object body, Class<T> clazz) {
+		return restClient.post()
+			.uri(uri)
+			.body(body)
+			.retrieve()
+			.body(clazz);
+	}
 }

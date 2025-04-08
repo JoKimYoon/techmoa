@@ -43,3 +43,4 @@ out/
 /log/**
 ### OS ###
 .DS_Store
+/gradle/wrapper/gradle-8.11.1-bin.zip

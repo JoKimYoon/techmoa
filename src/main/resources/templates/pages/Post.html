@@ -26,6 +26,7 @@
         )
         window.addEventListener("scroll", function () {
 
+
             if (hasNext === false) {
                 return;
             }
@@ -34,7 +35,7 @@
                 return;
             }
 
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            if (window.innerHeight + window.scrollY + 5 >= document.body.offsetHeight) {
                 getPostCardList(); // 요청 끝나면 다시 false
             }
         });

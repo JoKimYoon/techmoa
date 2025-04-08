@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim as builder
+FROM openjdk:21-jdk-slim as builder
 
 COPY gradlew .
 COPY gradle gradle
@@ -16,5 +16,5 @@ FROM openjdk:21-jdk-slim
 
 COPY --from=builder build/libs/*.jar app.jar
 
-EXPOSE 1000
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
